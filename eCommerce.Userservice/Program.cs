@@ -18,15 +18,14 @@ builder.Services.AddEndpointsApiExplorer();
 
 //Add swagger generation
 builder.Services.AddSwaggerGen();
+//Add cors services
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+    options.AddDefaultPolicy(builder => {
+        builder.WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
 });
 var app = builder.Build();
 app.UseExceptionHandlingMiddleware();
@@ -35,6 +34,7 @@ app.UseExceptionHandlingMiddleware();
 app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseCors();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
