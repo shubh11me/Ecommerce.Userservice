@@ -12,6 +12,7 @@ builder.Services.AddCore();
 builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddAutoMapper(typeof(ApplicationUserMappingProfile).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidators>();
+builder.Services.ConfigureHttpJsonOptions(op=>op.SerializerOptions.PropertyNameCaseInsensitive=true);
 
 //Add api explorer
 builder.Services.AddEndpointsApiExplorer();
