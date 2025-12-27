@@ -32,5 +32,14 @@ namespace eCommerce.Infrastructure.Repositories
             if (record is null) return null;
             else return record;
         }
+
+        public async Task<ApplicationUser?> GetUserById(Guid? userId)
+        {
+            string query = @"SELECT * FROM public.""Users"" WHERE ""UserId""=@UserId";
+            object paramz = new { UserId = userId };
+            ApplicationUser record=await _db.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, paramz);
+            if (record is null) return null;
+            else return record;
+        }
     }
 }

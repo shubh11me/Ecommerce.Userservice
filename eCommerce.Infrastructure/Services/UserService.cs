@@ -3,6 +3,7 @@ using eCommerce.Core.DTO;
 using eCommerce.Core.Entities;
 using eCommerce.Core.RepositoryContracts;
 using eCommerce.Core.ServiceContracts;
+using eCommerce.Infrastructure.Repositories;
 
 namespace eCommerce.Infrastructure.Services
 {
@@ -33,6 +34,11 @@ namespace eCommerce.Infrastructure.Services
             });
             if (response == null) return null;
             return _mapper.Map<AuthenticationResponse>(response) with { success=true,token="Token"};
+        }
+        public async Task<UserDTO> GetUserByUserID(Guid userID)
+        {
+            ApplicationUser? user = await _userRepository.GetUserById(userID);
+            return _mapper.Map<UserDTO>(user);
         }
     }
 }
