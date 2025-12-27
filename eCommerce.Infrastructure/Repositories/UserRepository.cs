@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using eCommerce.Core.Entities;
-using eCommerce.Core.Enums;
 using eCommerce.Core.RepositoryContracts;
 using eCommerce.Infrastructure.DbContexts;
 namespace eCommerce.Infrastructure.Repositories
@@ -15,8 +14,8 @@ namespace eCommerce.Infrastructure.Repositories
         public async Task<ApplicationUser?> AddUser(ApplicationUser user)
         {
             user.UserId= Guid.NewGuid();
-            string insertQuery = @"INSERT INTO public.Users (UserId, Email, Password, PersonName, Gender)
-                                   VALUES (@UserId, @Email, @Password, @PersonName, @Gender);";
+            string insertQuery = @"INSERT INTO Public.""Users"" (""UserId"", ""Email"", ""Password"", ""PersonName"", ""Gender"")
+                       VALUES (@UserId, @Email, @Password, @PersonName, @Gender);";
             int rowAffected=await _db.DbConnection.ExecuteAsync(insertQuery, user);
             if(rowAffected==0)
             {
@@ -27,7 +26,7 @@ namespace eCommerce.Infrastructure.Repositories
 
         public async Task<ApplicationUser?> GetUserByEmailAndPassword(string? email, string? password)
         {
-            string query = @"SELECT * FROM public.Users WHERE Email=@Email and Password=@Password";
+            string query = @"SELECT * FROM public.""Users"" WHERE ""Email""=@Email AND ""Password""=@Password";
             object paramz = new { Email = email, Password = password };
             ApplicationUser record=await _db.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, paramz);
             if (record is null) return null;
